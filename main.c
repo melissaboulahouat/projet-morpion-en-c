@@ -26,7 +26,7 @@ void afficher_grille() {
 
 // 3. Verifie s'il y a un gagnant
 char verifier_gagnant() {
-    // lignes
+    // ligne
     for (int i = 0; i < TAILLE; i++) {
         if (grille[i][0] != ' ' && grille[i][0] == grille[i][1] && grille[i][1] == grille[i][2])
             return grille[i][0];
@@ -67,29 +67,37 @@ int main() {
 
     while (1) {
         afficher_grille();
-        printf("Joueur %c (ligne col): ", joueur);
+        printf("Joueur %c (ligne(1,2,3) col(1,2,3)): ", joueur);
         scanf("%d %d", &ligne, &col);
 
         // case invalide
-        if (ligne < 0 || ligne > 2 || col < 0 || col > 2 || grille[ligne][col] != ' ') {
-            printf("Coup invalide, rejouez !\n");
+        if (ligne < 1 || ligne > 3|| col < 1 || col > 3 ) {
+            printf("Coup invalide, rejouez \n");
             continue;
-        }
+            }
+        if (grille[ligne-1][col-1] != ' ') {
+            printf("Case deja utilisee \n");
+            continue;
+            }
 
-        grille[ligne][col] = joueur;
+        grille[ligne-1][col-1] = joueur;
 
         gagnant = verifier_gagnant();
         if (gagnant != ' ') {
             afficher_grille();
-            printf("Bravo ! Joueur %c a gagne !\n", gagnant);
+            printf("Bravo, Joueur %c a gagne \n", gagnant);
             break;
         }
         if (grille_pleine()) {
             afficher_grille();
-            printf("Match nul !\n");
+            printf("Match nul \n");
             break;
         }
-
+        // changer de joueur
+        joueur = (joueur == 'X') ? 'O' : 'X';
+    }
+    return 0;
+}
         // changer de joueur
         joueur = (joueur == 'X') ? 'O' : 'X';
     }
